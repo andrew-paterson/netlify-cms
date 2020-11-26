@@ -44,6 +44,7 @@ export const MEDIA_DELETE_FAILURE = 'MEDIA_DELETE_FAILURE';
 export const MEDIA_DISPLAY_URL_REQUEST = 'MEDIA_DISPLAY_URL_REQUEST';
 export const MEDIA_DISPLAY_URL_SUCCESS = 'MEDIA_DISPLAY_URL_SUCCESS';
 export const MEDIA_DISPLAY_URL_FAILURE = 'MEDIA_DISPLAY_URL_FAILURE';
+export const MEDIA_FOLDER_UPDATE = 'MEDIA_FOLDER_UPDATE';
 
 export function createMediaLibrary(instance: MediaLibraryInstance) {
   const api = {
@@ -131,8 +132,17 @@ export function removeInsertedMedia(controlID: string) {
   return { type: MEDIA_REMOVE_INSERTED, payload: { controlID } };
 }
 
+export function updateMediaFolder(path: string) {
+  return (dispatch: ThunkDispatch<State, {}, AnyAction>, getState: () => State) => {
+    const state = getState();
+    const backend = currentBackend(state.config);
+    backend.updateMediaFolder(path);
+    dispatch({ type: MEDIA_FOLDER_UPDATE });
+  };
+}
+
 export function loadMedia( 
-  opts: { delay?: number; query?: string; page?: number; privateUpload?: boolean } = {}, mediaFolder: string,
+  opts: { delay?: number; query?: string; page?: number; privateUpload?: boolean } = {}
   ) {
   const { delay = 0, query = '', page = 1, privateUpload } = opts;
   return async (dispatch: ThunkDispatch<State, {}, AnyAction>, getState: () => State) => {
@@ -159,7 +169,7 @@ export function loadMedia(
     dispatch(mediaLoading(page));
     const loadFunction = () =>
       backend
-        .getMedia(mediaFolder)
+        .getMedia()
         .then(files => dispatch(mediaLoaded(files)))
         .catch((error: { status?: number }) => {
           console.error(error);

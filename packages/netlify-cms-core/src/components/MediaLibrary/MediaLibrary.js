@@ -13,6 +13,7 @@ import {
   insertMedia as insertMediaAction,
   loadMediaDisplayURL as loadMediaDisplayURLAction,
   closeMediaLibrary as closeMediaLibraryAction,
+  updateMediaFolder as updateMediaFolderAction,
 } from 'Actions/mediaLibrary';
 import { selectMediaFiles } from 'Reducers/mediaLibrary';
 import MediaLibraryModal, { fileShape } from './MediaLibraryModal';
@@ -42,6 +43,7 @@ class MediaLibrary extends React.Component {
     privateUpload: PropTypes.bool,
     config: ImmutablePropTypes.map,
     loadMedia: PropTypes.func.isRequired,
+    updateMediaFolder: PropTypes.func.isRequired,
     dynamicSearchQuery: PropTypes.string,
     page: PropTypes.number,
     persistMedia: PropTypes.func.isRequired,
@@ -148,8 +150,9 @@ class MediaLibrary extends React.Component {
       const selectedFile = this.state.selectedFile.key === asset.key ? {} : asset;
       this.setState({ selectedFile });
     } else {
-      this.props.loadMedia({}, `/${asset.path}`);
-    }x§
+      this.props.updateMediaFolder(`/${asset.path}`);
+      this.props.loadMedia();
+    }
   };
 
   /**
@@ -380,6 +383,7 @@ const mapDispatchToProps = {
   insertMedia: insertMediaAction,
   loadMediaDisplayURL: loadMediaDisplayURLAction,
   closeMediaLibrary: closeMediaLibraryAction,
+  updateMediaFolder: updateMediaFolderAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(translate()(MediaLibrary));

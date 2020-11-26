@@ -18,6 +18,7 @@ import {
   MEDIA_DISPLAY_URL_REQUEST,
   MEDIA_DISPLAY_URL_SUCCESS,
   MEDIA_DISPLAY_URL_FAILURE,
+  MEDIA_FOLDER_UPDATE,
 } from '../actions/mediaLibrary';
 import { selectEditingDraft, selectMediaFolder } from './entries';
 import { selectIntegration } from './';
@@ -209,6 +210,14 @@ const mediaLibrary = (state = Map(defaultState), action: MediaLibraryAction) => 
           .deleteIn([...displayURLPath, 'url'])
       );
     }
+
+    case MEDIA_FOLDER_UPDATE: {
+      // zzz not sure what this is doing?
+      return state.withMutations(map => {
+        map.set('isLoading', false);
+      });
+    }
+
     default:
       return state;
   }

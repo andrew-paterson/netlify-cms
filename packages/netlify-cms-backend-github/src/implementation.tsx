@@ -436,6 +436,10 @@ export default class GitHub implements Implementation {
       .catch(() => ({ file: { path, id: null }, data: '' }));
   }
 
+  updateMediaFolder(path: string) {
+    this.mediaFolder = path;
+  }
+
   getMedia(mediaFolder = this.mediaFolder) {
     return this.api!.listFiles(mediaFolder).then(files =>
       files.map(({ id, name, size, path }) => {

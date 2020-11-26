@@ -805,8 +805,12 @@ export class Backend {
     return entryValue;
   }
 
-  getMedia(mediaFolder: string) {
-    return this.implementation.getMedia(mediaFolder);
+  updateMediaFolder(path: string) {
+    return this.implementation.updateMediaFolder(path);
+  }
+
+  getMedia() {
+    return this.implementation.getMedia();
   }
 
   getMediaFile(path: string) {
