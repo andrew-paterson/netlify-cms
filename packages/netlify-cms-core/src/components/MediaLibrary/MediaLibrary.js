@@ -144,8 +144,12 @@ class MediaLibrary extends React.Component {
    * Toggle asset selection on click.
    */
   handleAssetClick = asset => {
-    const selectedFile = this.state.selectedFile.key === asset.key ? {} : asset;
-    this.setState({ selectedFile });
+    if (asset.isViewableImage) {
+      const selectedFile = this.state.selectedFile.key === asset.key ? {} : asset;
+      this.setState({ selectedFile });
+    } else {
+      this.props.loadMedia({}, `/${asset.path}`);
+    }x§
   };
 
   /**

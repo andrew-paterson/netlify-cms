@@ -676,7 +676,8 @@ export default class API {
       return (
         result.tree
           // filter only files and up to the required depth
-          .filter(file => file.type === 'blob' && file.path.split('/').length <= depth)
+          .filter(file => {
+            return file.type === 'blob' || file.type === 'tree' && file.path.split('/').length <= depth})
           .map(file => ({
             type: file.type,
             id: file.sha,

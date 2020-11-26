@@ -102,8 +102,8 @@ class MediaLibraryCard extends React.Component {
     );
   }
   componentDidMount() {
-    const { displayURL, loadDisplayURL } = this.props;
-    if (!displayURL.get('url')) {
+    const { displayURL, loadDisplayURL, isViewableImage } = this.props;
+    if (!displayURL.get('url') && isViewableImage) {
       loadDisplayURL();
     }
   }
