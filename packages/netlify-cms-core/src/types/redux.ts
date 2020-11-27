@@ -440,6 +440,7 @@ export interface MediaLibraryAction extends Action<string> {
   payload: MediaLibraryInstance & {
     controlID: string;
     forImage: boolean;
+    currentMediaFolder: string,
     privateUpload: boolean;
     config: Map<string, string>;
     field?: EntryField;

@@ -214,6 +214,7 @@ const mediaLibrary = (state = Map(defaultState), action: MediaLibraryAction) => 
     case MEDIA_FOLDER_UPDATE: {
       // zzz not sure what this is doing?
       return state.withMutations(map => {
+        map.set('currentMediaFolder', action.payload.currentMediaFolder);
         map.set('isLoading', false);
       });
     }

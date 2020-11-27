@@ -132,12 +132,13 @@ export function removeInsertedMedia(controlID: string) {
   return { type: MEDIA_REMOVE_INSERTED, payload: { controlID } };
 }
 
-export function updateMediaFolder(path: string) {
+export function updateMediaFolder(selectedMediaFolder: string) {
   return (dispatch: ThunkDispatch<State, {}, AnyAction>, getState: () => State) => {
     const state = getState();
     const backend = currentBackend(state.config);
-    backend.updateMediaFolder(path);
-    dispatch({ type: MEDIA_FOLDER_UPDATE });
+    var currentMediaFolder = backend.updateMediaFolder(selectedMediaFolder);
+    dispatch({ type: MEDIA_FOLDER_UPDATE, payload: { currentMediaFolder } });
+    console.log(state);
   };
 }
 
@@ -271,6 +272,7 @@ export function persistMedia(file: File, opts: MediaOptions = {}) {
       } else {
         const entry = state.entryDraft.get('entry');
         const collection = state.collections.get(entry?.get('collection'));
+        console.log(state);
         const path = selectMediaFilePath(state.config, collection, entry, fileName, field);
         assetProxy = createAssetProxy({
           file,
@@ -296,6 +298,8 @@ export function persistMedia(file: File, opts: MediaOptions = {}) {
         });
         return dispatch(addDraftEntryMediaFile(mediaFile));
       } else {
+        console.log('backend.persistMedia');
+        console.log(state.config);
         mediaFile = await backend.persistMedia(state.config, assetProxy);
       }
 

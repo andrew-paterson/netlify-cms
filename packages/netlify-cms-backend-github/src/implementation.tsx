@@ -437,7 +437,8 @@ export default class GitHub implements Implementation {
   }
 
   updateMediaFolder(path: string) {
-    this.mediaFolder = path;
+    this.mediaFolder = path || this.mediaFolder;
+    return this.mediaFolder;
   }
 
   getMedia(mediaFolder = this.mediaFolder) {
@@ -488,9 +489,12 @@ export default class GitHub implements Implementation {
   }
 
   async persistMedia(mediaFile: AssetProxy, options: PersistOptions) {
+    console.log({...mediaFile});
     try {
       await this.api!.persistFiles([], [mediaFile], options);
       const { sha, path, fileObj } = mediaFile as AssetProxy & { sha: string };
+      console.log(mediaFile);
+      console.log(path)
       const displayURL = URL.createObjectURL(fileObj);
       return {
         id: sha,

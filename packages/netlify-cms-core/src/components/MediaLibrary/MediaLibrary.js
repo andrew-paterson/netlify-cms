@@ -67,6 +67,7 @@ class MediaLibrary extends React.Component {
   };
 
   componentDidMount() {
+    this.props.updateMediaFolder();
     this.props.loadMedia();
   }
 
@@ -154,6 +155,11 @@ class MediaLibrary extends React.Component {
       this.props.loadMedia();
     }
   };
+
+  handleBreadcrumbClick = path => {
+    this.props.updateMediaFolder(`${path}`);
+    this.props.loadMedia();
+  }
 
   /**
    * Upload a file.
@@ -311,6 +317,7 @@ class MediaLibrary extends React.Component {
       isPaginating,
       privateUpload,
       displayURLs,
+      currentMediaFolder,
       t,
     } = this.props;
 
@@ -342,9 +349,11 @@ class MediaLibrary extends React.Component {
         handleDownload={this.handleDownload}
         setScrollContainerRef={ref => (this.scrollContainerRef = ref)}
         handleAssetClick={this.handleAssetClick}
+        handleBreadcrumbClick={this.handleBreadcrumbClick}
         handleLoadMore={this.handleLoadMore}
         displayURLs={displayURLs}
         loadDisplayURL={this.loadDisplayURL}
+        currentMediaFolder={currentMediaFolder}
         t={t}
       />
     );
@@ -371,6 +380,7 @@ const mapStateToProps = state => {
     page: mediaLibrary.get('page'),
     hasNextPage: mediaLibrary.get('hasNextPage'),
     isPaginating: mediaLibrary.get('isPaginating'),
+    currentMediaFolder: mediaLibrary.get('currentMediaFolder'),
     field,
   };
   return { ...mediaLibraryProps };
