@@ -138,7 +138,6 @@ export function updateMediaFolder(selectedMediaFolder: string) {
     const backend = currentBackend(state.config);
     var currentMediaFolder = backend.updateMediaFolder(selectedMediaFolder);
     dispatch({ type: MEDIA_FOLDER_UPDATE, payload: { currentMediaFolder } });
-    console.log(state);
   };
 }
 
